@@ -4,6 +4,8 @@ An interactive three.js simulator of how smell moves through a sealed room, and 
 32-sensor electronic nose (modeled on the Cyranose 320) would record near different objects,
 materials and situations.
 
+![SmellSim: odor plumes in a studio apartment, with the e-nose panel showing live traces, the raw 32 x T signal, a smellprint and a PCA of captures](docs/screenshot.png)
+
 ## Run
 
 ```bash
