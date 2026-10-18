@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smell Simulator: Cyranose 320 in a room</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%234cf2ff'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <header id="topbar">
+        <div class="brand">Smell<span>Sim</span></div>
+        <div class="group">
+          <button id="btn-play" class="icon" title="Play / pause (P)">Pause</button>
+          <div class="segmented" id="speed-buttons"></div>
+          <span id="sim-clock" class="clock">0:00</span>
+          <span id="sim-perf" class="muted"></span>
+          <button id="btn-skip-1" title="Simulate 1 minute as fast as possible">+1 min</button>
+          <button id="btn-skip-10" title="Simulate 10 minutes as fast as possible">+10 min</button>
+          <button id="btn-reset" title="Clear all air, odors and heat">Reset air</button>
+        </div>
+        <div class="group">
+          <label class="muted">View</label>
+          <div class="segmented" id="view-buttons"></div>
+        </div>
+        <div class="group" id="layer-toggles"></div>
+        <div class="group">
+          <div class="segmented" id="camera-buttons"></div>
+          <button id="btn-help" title="How it works">?</button>
+        </div>
+      </header>
+      <aside id="left-panel"></aside>
+      <main id="viewport">
+        <div id="viewport-hint"></div>
+        <div id="legend"></div>
+      </main>
+      <aside id="right-panel"></aside>
+    </div>
+    <div id="help-modal" class="modal hidden"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
