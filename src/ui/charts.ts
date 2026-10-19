@@ -1,7 +1,13 @@
 // Canvas charts for the sensor panel.
 
-import { FAMILY_COLORS, POLYMERS } from '../chem/polymers';
 import type { PhaseKind } from '../device/cyranose';
+
+/** Display info for one sensor channel. */
+export interface ChannelLabel {
+  label: string;
+  color: string;
+  active: boolean;
+}
 
 export const PHASE_COLORS: Record<string, string> = {
   baseline: '#ffd166',
@@ -65,7 +71,7 @@ export interface HeatmapData {
  * 'relative' shows (R - R0) / R0 with R0 the baseline mean; 'raw' shows each sensor's
  * resistance min-max normalized over the window (absolute ohms differ ~5x between sensors).
  */
-export function drawHeatmap(canvas: HTMLCanvasElement, data: HeatmapData, mode: 'relative' | 'raw'): { scale: number } {
+export function drawHeatmap(canvas: HTMLCanvasElement, data: HeatmapData, mode: 'relative' | 'raw', channels: ChannelLabel[]): { scale: number } {
   const context = prepareCanvas(canvas);
   const width = canvas.clientWidth;
   const height = canvas.clientHeight;
@@ -74,7 +80,7 @@ export function drawHeatmap(canvas: HTMLCanvasElement, data: HeatmapData, mode: 
   const bottom = 18;
   const right = 8;
   const rows = data.rows;
-  const sensors = POLYMERS.length;
+  const sensors = channels.length;
   context.font = '9px ui-monospace, monospace';
   context.fillStyle = '#8b95a3';
   if (rows.length === 0) {
@@ -88,7 +94,8 @@ export function drawHeatmap(canvas: HTMLCanvasElement, data: HeatmapData, mode: 
   let scale = 0;
   const baseline = data.baselineMean ?? rows[0];
   if (mode === 'relative') {
-    for (const row of rows) for (let i = 0; i < sensors; i++) scale = Math.max(scale, Math.abs((row[i] - baseline[i]) / baseline[i]));
+    // color scale from active channels only, so non-sensing spikes do not wash out the image
+    for (const row of rows) for (let i = 0; i < sensors; i++) if (channels[i].active) scale = Math.max(scale, Math.abs((row[i] - baseline[i]) / baseline[i]));
     scale = Math.max(scale, 5e-5);
   }
   const minimum = new Float64Array(sensors).fill(Infinity);
@@ -121,8 +128,8 @@ export function drawHeatmap(canvas: HTMLCanvasElement, data: HeatmapData, mode: 
   // sensor labels, every 4th, colored by polymer family
   for (let i = 0; i < sensors; i += 1) {
     if (cellH < 7 && i % 4 !== 0) continue;
-    context.fillStyle = FAMILY_COLORS[POLYMERS[i].family];
-    context.fillText(POLYMERS[i].abbr, 2, top + (i + 0.8) * cellH);
+    context.fillStyle = channels[i].color;
+    context.fillText(channels[i].label, 2, top + (i + 0.8) * cellH);
   }
   context.fillStyle = '#8b95a3';
   context.fillText(`T = ${rows.length} timesteps`, left, height - 4);
@@ -136,6 +143,7 @@ export function drawTraces(
   times: number[],
   values: Float64Array[],
   phases: string[],
+  channels: ChannelLabel[],
 ): void {
   const context = prepareCanvas(canvas);
   const width = canvas.clientWidth;
@@ -157,6 +165,7 @@ export function drawTraces(
   values.forEach((row, index) => {
     if (times[index] < t0) return;
     for (let i = 0; i < row.length; i++) {
+      if (!channels[i]?.active) continue;
       low = Math.min(low, row[i]);
       high = Math.max(high, row[i]);
     }
@@ -179,8 +188,9 @@ export function drawTraces(
   context.moveTo(left, y(0));
   context.lineTo(left + plotW, y(0));
   context.stroke();
-  for (let i = 0; i < POLYMERS.length; i++) {
-    context.strokeStyle = FAMILY_COLORS[POLYMERS[i].family];
+  for (let i = 0; i < channels.length; i++) {
+    if (!channels[i].active) continue;
+    context.strokeStyle = channels[i].color;
     context.globalAlpha = 0.8;
     context.lineWidth = 1;
     context.beginPath();
@@ -205,7 +215,7 @@ export function drawTraces(
 }
 
 /** 32-bar smellprint, colored by polymer family. */
-export function drawSmellprint(canvas: HTMLCanvasElement, print: Float64Array | null, compare: Float64Array | null = null): void {
+export function drawSmellprint(canvas: HTMLCanvasElement, print: Float64Array | null, channels: ChannelLabel[]): void {
   const context = prepareCanvas(canvas);
   const width = canvas.clientWidth;
   const height = canvas.clientHeight;
@@ -220,8 +230,9 @@ export function drawSmellprint(canvas: HTMLCanvasElement, print: Float64Array | 
     return;
   }
   let maxAbs = 1e-6;
-  for (const value of print) maxAbs = Math.max(maxAbs, Math.abs(value));
-  if (compare) for (const value of compare) maxAbs = Math.max(maxAbs, Math.abs(value));
+  print.forEach((value, i) => {
+    if (channels[i]?.active) maxAbs = Math.max(maxAbs, Math.abs(value));
+  });
   const plotW = width - left - right;
   const plotH = height - top - bottom;
   const zero = top + plotH / 2;
@@ -232,14 +243,11 @@ export function drawSmellprint(canvas: HTMLCanvasElement, print: Float64Array | 
   context.lineTo(left + plotW, zero);
   context.stroke();
   print.forEach((value, i) => {
-    const h = (value / maxAbs) * (plotH / 2);
-    context.fillStyle = FAMILY_COLORS[POLYMERS[i].family];
+    // non-sensing channels are clipped to the scale of the active ones
+    const clipped = Math.max(-maxAbs, Math.min(maxAbs, value));
+    const h = (clipped / maxAbs) * (plotH / 2);
+    context.fillStyle = channels[i].active ? channels[i].color : '#5b657366';
     context.fillRect(left + i * barW + 1, Math.min(zero, zero - h), Math.max(1, barW - 2), Math.abs(h));
-    if (compare) {
-      const ch = (compare[i] / maxAbs) * (plotH / 2);
-      context.strokeStyle = '#ffffffaa';
-      context.strokeRect(left + i * barW + 1, Math.min(zero, zero - ch), Math.max(1, barW - 2), Math.abs(ch));
-    }
   });
   context.save();
   context.translate(0, 0);
@@ -247,8 +255,8 @@ export function drawSmellprint(canvas: HTMLCanvasElement, print: Float64Array | 
     context.save();
     context.translate(left + (i + 0.5) * barW + 3, height - bottom + 4);
     context.rotate(Math.PI / 2.4);
-    context.fillStyle = FAMILY_COLORS[POLYMERS[i].family];
-    context.fillText(POLYMERS[i].abbr, 0, 0);
+    context.fillStyle = channels[i].color;
+    context.fillText(channels[i].label, 0, 0);
     context.restore();
   }
   context.restore();

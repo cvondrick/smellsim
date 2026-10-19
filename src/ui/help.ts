@@ -59,6 +59,9 @@ Tubing and the sensor chamber smooth and delay the signal; polymers respond in a
 <li><b>Smellprint</b>: S<sub>i</sub> = (R<sub>max,i</sub> - R<sub>0,i</sub>) / R<sub>0,i</sub> from Savitzky-Golay
 smoothed traces. R<sub>0</sub> is the baseline mean and R<sub>max</sub> is the sample peak.</li>
 <li><b>PCA</b> of normalized, autoscaled smellprints shows which captures look alike.</li>
+<li><b>Sensor model</b>: by default the 32 channels are fitted to the real Cyranose unit in the New York Smells
+dataset. Every 4th channel (S3, S7, ...) is a non-sensing position on that unit, humidity dominates the real signal,
+and inlet offsets and slow wander are drawn from real recordings. A literature polymer set is available as an alternative.</li>
 <li><b>Confounds</b> are realistic. Water vapor swells hydrophilic polymers, so humid sources (coffee steam, plants,
 a humidifier) can dominate the pattern. Faint materials give responses near the noise floor unless the snout almost
 touches them. The PID reading (total VOC) is shown for comparison.</li>

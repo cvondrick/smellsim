@@ -1,0 +1,1258 @@
+{
+ "compounds": [
+  {
+   "id": "water",
+   "E": 0,
+   "S": 0.45,
+   "A": 0.82,
+   "B": 0.35,
+   "L": 0.26,
+   "molarVolume": 0.00001802,
+   "enthalpy": -44000
+  },
+  {
+   "id": "ethanol",
+   "E": 0.246,
+   "S": 0.42,
+   "A": 0.37,
+   "B": 0.48,
+   "L": 1.485,
+   "molarVolume": 0.00005839036755386565,
+   "enthalpy": -31880
+  },
+  {
+   "id": "isopropanol",
+   "E": 0.212,
+   "S": 0.36,
+   "A": 0.33,
+   "B": 0.56,
+   "L": 1.764,
+   "molarVolume": 0.00007646310432569975,
+   "enthalpy": -34112
+  },
+  {
+   "id": "acetone",
+   "E": 0.179,
+   "S": 0.7,
+   "A": 0.04,
+   "B": 0.49,
+   "L": 1.696,
+   "molarVolume": 0.00007408163265306122,
+   "enthalpy": -33568
+  },
+  {
+   "id": "ethyl_acetate",
+   "E": 0.106,
+   "S": 0.62,
+   "A": 0,
+   "B": 0.45,
+   "L": 2.314,
+   "molarVolume": 0.00009768292682926827,
+   "enthalpy": -38512
+  },
+  {
+   "id": "toluene",
+   "E": 0.601,
+   "S": 0.52,
+   "A": 0,
+   "B": 0.14,
+   "L": 3.325,
+   "molarVolume": 0.00010627450980392156,
+   "enthalpy": -46600
+  },
+  {
+   "id": "styrene",
+   "E": 0.849,
+   "S": 0.65,
+   "A": 0,
+   "B": 0.16,
+   "L": 3.856,
+   "molarVolume": 0.00011495584988962473,
+   "enthalpy": -50848
+  },
+  {
+   "id": "ethylbenzene",
+   "E": 0.613,
+   "S": 0.51,
+   "A": 0,
+   "B": 0.15,
+   "L": 3.778,
+   "molarVolume": 0.0001224567474048443,
+   "enthalpy": -50224
+  },
+  {
+   "id": "hexane",
+   "E": 0,
+   "S": 0,
+   "A": 0,
+   "B": 0,
+   "L": 2.668,
+   "molarVolume": 0.00013157251908396946,
+   "enthalpy": -41344
+  },
+  {
+   "id": "decane",
+   "E": 0,
+   "S": 0,
+   "A": 0,
+   "B": 0,
+   "L": 4.686,
+   "molarVolume": 0.0001949315068493151,
+   "enthalpy": -57488
+  },
+  {
+   "id": "limonene",
+   "E": 0.519,
+   "S": 0.36,
+   "A": 0,
+   "B": 0.22,
+   "L": 4.688,
+   "molarVolume": 0.0001619976218787158,
+   "enthalpy": -57504
+  },
+  {
+   "id": "alpha_pinene",
+   "E": 0.446,
+   "S": 0.14,
+   "A": 0,
+   "B": 0.12,
+   "L": 4.308,
+   "molarVolume": 0.0001587878787878788,
+   "enthalpy": -54464
+  },
+  {
+   "id": "linalool",
+   "E": 0.398,
+   "S": 0.55,
+   "A": 0.2,
+   "B": 0.67,
+   "L": 4.794,
+   "molarVolume": 0.0001797785547785548,
+   "enthalpy": -58352
+  },
+  {
+   "id": "phenylethanol",
+   "E": 0.811,
+   "S": 0.91,
+   "A": 0.3,
+   "B": 0.64,
+   "L": 4.628,
+   "molarVolume": 0.00011977450980392157,
+   "enthalpy": -57024
+  },
+  {
+   "id": "benzyl_acetate",
+   "E": 0.798,
+   "S": 1.06,
+   "A": 0,
+   "B": 0.65,
+   "L": 5.082,
+   "molarVolume": 0.0001424762808349146,
+   "enthalpy": -60656
+  },
+  {
+   "id": "vanillin",
+   "E": 1.04,
+   "S": 1.62,
+   "A": 0.32,
+   "B": 0.73,
+   "L": 5.4,
+   "molarVolume": 0.00014353773584905658,
+   "enthalpy": -63200
+  },
+  {
+   "id": "isoamyl_acetate",
+   "E": 0.051,
+   "S": 0.57,
+   "A": 0,
+   "B": 0.47,
+   "L": 3.74,
+   "molarVolume": 0.00014861872146118723,
+   "enthalpy": -49920
+  },
+  {
+   "id": "ethyl_butyrate",
+   "E": 0.068,
+   "S": 0.58,
+   "A": 0,
+   "B": 0.45,
+   "L": 3.271,
+   "molarVolume": 0.00013215017064846415,
+   "enthalpy": -46168
+  },
+  {
+   "id": "hexanal",
+   "E": 0.146,
+   "S": 0.65,
+   "A": 0,
+   "B": 0.45,
+   "L": 3.357,
+   "molarVolume": 0.00012304668304668304,
+   "enthalpy": -46856
+  },
+  {
+   "id": "nonanal",
+   "E": 0.15,
+   "S": 0.65,
+   "A": 0,
+   "B": 0.45,
+   "L": 4.856,
+   "molarVolume": 0.00017199516324062881,
+   "enthalpy": -58848
+  },
+  {
+   "id": "hexenal",
+   "E": 0.27,
+   "S": 0.73,
+   "A": 0,
+   "B": 0.47,
+   "L": 3.4,
+   "molarVolume": 0.0001160047281323877,
+   "enthalpy": -47200
+  },
+  {
+   "id": "hexenol",
+   "E": 0.3,
+   "S": 0.48,
+   "A": 0.37,
+   "B": 0.48,
+   "L": 3.4,
+   "molarVolume": 0.00011783529411764705,
+   "enthalpy": -47200
+  },
+  {
+   "id": "furfural",
+   "E": 0.69,
+   "S": 1.13,
+   "A": 0,
+   "B": 0.45,
+   "L": 3.318,
+   "molarVolume": 0.00008282758620689655,
+   "enthalpy": -46544
+  },
+  {
+   "id": "benzaldehyde",
+   "E": 0.82,
+   "S": 1,
+   "A": 0,
+   "B": 0.39,
+   "L": 4.008,
+   "molarVolume": 0.00010164750957854406,
+   "enthalpy": -52064
+  },
+  {
+   "id": "acetaldehyde",
+   "E": 0.208,
+   "S": 0.67,
+   "A": 0,
+   "B": 0.45,
+   "L": 1.23,
+   "molarVolume": 0.00005590101522842639,
+   "enthalpy": -29840
+  },
+  {
+   "id": "diacetyl",
+   "E": 0.24,
+   "S": 0.8,
+   "A": 0,
+   "B": 0.62,
+   "L": 2,
+   "molarVolume": 0.00008695959595959595,
+   "enthalpy": -36000
+  },
+  {
+   "id": "acetic_acid",
+   "E": 0.265,
+   "S": 0.64,
+   "A": 0.62,
+   "B": 0.44,
+   "L": 1.75,
+   "molarVolume": 0.00005724499523355577,
+   "enthalpy": -34000
+  },
+  {
+   "id": "butyric_acid",
+   "E": 0.21,
+   "S": 0.62,
+   "A": 0.6,
+   "B": 0.45,
+   "L": 2.75,
+   "molarVolume": 0.00009178125,
+   "enthalpy": -42000
+  },
+  {
+   "id": "trimethylamine",
+   "E": 0.14,
+   "S": 0.2,
+   "A": 0,
+   "B": 0.67,
+   "L": 1.62,
+   "molarVolume": 0.00009382539682539682,
+   "enthalpy": -32960
+  },
+  {
+   "id": "ammonia",
+   "E": 0.139,
+   "S": 0.35,
+   "A": 0.14,
+   "B": 0.62,
+   "L": 0.68,
+   "molarVolume": 0.000025044117647058822,
+   "enthalpy": -25440
+  },
+  {
+   "id": "dimethyl_sulfide",
+   "E": 0.404,
+   "S": 0.33,
+   "A": 0,
+   "B": 0.29,
+   "L": 2.237,
+   "molarVolume": 0.00007343971631205675,
+   "enthalpy": -37896
+  },
+  {
+   "id": "hydrogen_sulfide",
+   "E": 0.35,
+   "S": 0.31,
+   "A": 0.1,
+   "B": 0.07,
+   "L": 0.723,
+   "molarVolume": 0.00003625531914893617,
+   "enthalpy": -25784
+  },
+  {
+   "id": "methanethiol",
+   "E": 0.35,
+   "S": 0.33,
+   "A": 0,
+   "B": 0.2,
+   "L": 1.6,
+   "molarVolume": 0.000055298850574712644,
+   "enthalpy": -32800
+  },
+  {
+   "id": "furfurylthiol",
+   "E": 0.9,
+   "S": 0.85,
+   "A": 0.05,
+   "B": 0.45,
+   "L": 3.9,
+   "molarVolume": 0.0001010353982300885,
+   "enthalpy": -51200
+  },
+  {
+   "id": "pyrazine",
+   "E": 0.7,
+   "S": 0.85,
+   "A": 0,
+   "B": 0.65,
+   "L": 4.4,
+   "molarVolume": 0.000141875,
+   "enthalpy": -55200
+  },
+  {
+   "id": "methylbutanal",
+   "E": 0.144,
+   "S": 0.62,
+   "A": 0,
+   "B": 0.45,
+   "L": 2.62,
+   "molarVolume": 0.0001076625,
+   "enthalpy": -40960
+  },
+  {
+   "id": "acetylpyrroline",
+   "E": 0.6,
+   "S": 0.9,
+   "A": 0,
+   "B": 0.7,
+   "L": 3.6,
+   "molarVolume": 0.00011114,
+   "enthalpy": -48800
+  },
+  {
+   "id": "isoprene",
+   "E": 0.313,
+   "S": 0.23,
+   "A": 0,
+   "B": 0.1,
+   "L": 2.101,
+   "molarVolume": 0.00010002936857562407,
+   "enthalpy": -36808
+  },
+  {
+   "id": "menthol",
+   "E": 0.4,
+   "S": 0.5,
+   "A": 0.23,
+   "B": 0.58,
+   "L": 5.2,
+   "molarVolume": 0.00017558426966292134,
+   "enthalpy": -61600
+  },
+  {
+   "id": "eugenol",
+   "E": 0.946,
+   "S": 0.99,
+   "A": 0.22,
+   "B": 0.51,
+   "L": 5.8,
+   "molarVolume": 0.00015490566037735845,
+   "enthalpy": -66400
+  },
+  {
+   "id": "benzothiazole",
+   "E": 1.4,
+   "S": 1.1,
+   "A": 0,
+   "B": 0.46,
+   "L": 5.15,
+   "molarVolume": 0.00010902419354838708,
+   "enthalpy": -61200
+  },
+  {
+   "id": "ethylhexanol",
+   "E": 0.209,
+   "S": 0.39,
+   "A": 0.37,
+   "B": 0.48,
+   "L": 4.433,
+   "molarVolume": 0.00015633853541416565,
+   "enthalpy": -55464
+  },
+  {
+   "id": "octenol",
+   "E": 0.25,
+   "S": 0.42,
+   "A": 0.37,
+   "B": 0.48,
+   "L": 4.3,
+   "molarVolume": 0.0001531780167264038,
+   "enthalpy": -54400
+  },
+  {
+   "id": "octenone",
+   "E": 0.2,
+   "S": 0.7,
+   "A": 0,
+   "B": 0.5,
+   "L": 4,
+   "molarVolume": 0.00015204819277108437,
+   "enthalpy": -52000
+  },
+  {
+   "id": "geosmin",
+   "E": 0.7,
+   "S": 0.65,
+   "A": 0.32,
+   "B": 0.75,
+   "L": 6.2,
+   "molarVolume": 0.0001823,
+   "enthalpy": -69600
+  },
+  {
+   "id": "formaldehyde",
+   "E": 0.22,
+   "S": 0.7,
+   "A": 0,
+   "B": 0.33,
+   "L": 0.73,
+   "molarVolume": 0.00003684662576687117,
+   "enthalpy": -25840
+  },
+  {
+   "id": "indole",
+   "E": 1.2,
+   "S": 1.12,
+   "A": 0.44,
+   "B": 0.22,
+   "L": 5.5,
+   "molarVolume": 0.00009602459016393443,
+   "enthalpy": -64000
+  }
+ ],
+ "polymers": [
+  {
+   "abbr": "PIB",
+   "family": "nonpolar",
+   "lser": [
+    -0.77,
+    -0.08,
+    0.37,
+    0.18,
+    0,
+    1.02
+   ],
+   "percolationMargin": 0.45
+  },
+  {
+   "abbr": "PDMS",
+   "family": "nonpolar",
+   "lser": [
+    -0.5,
+    -0.1,
+    0.25,
+    0.3,
+    0,
+    0.86
+   ],
+   "percolationMargin": 0.6
+  },
+  {
+   "abbr": "PBD",
+   "family": "nonpolar",
+   "lser": [
+    -0.8,
+    0.1,
+    0.5,
+    0.4,
+    0,
+    1
+   ],
+   "percolationMargin": 0.5
+  },
+  {
+   "abbr": "PEVA",
+   "family": "nonpolar",
+   "lser": [
+    -0.85,
+    0,
+    0.9,
+    1,
+    0,
+    0.95
+   ],
+   "percolationMargin": 0.55
+  },
+  {
+   "abbr": "PIP",
+   "family": "nonpolar",
+   "lser": [
+    -0.75,
+    0.05,
+    0.42,
+    0.3,
+    0,
+    0.98
+   ],
+   "percolationMargin": 0.7
+  },
+  {
+   "abbr": "PS",
+   "family": "aromatic",
+   "lser": [
+    -0.9,
+    0.5,
+    0.9,
+    0.3,
+    0.2,
+    0.9
+   ],
+   "percolationMargin": 0.5
+  },
+  {
+   "abbr": "PaMS",
+   "family": "aromatic",
+   "lser": [
+    -0.95,
+    0.4,
+    0.8,
+    0.3,
+    0.1,
+    0.92
+   ],
+   "percolationMargin": 0.65
+  },
+  {
+   "abbr": "OV-25",
+   "family": "aromatic",
+   "lser": [
+    -0.85,
+    0.18,
+    1.29,
+    0.56,
+    0.44,
+    0.88
+   ],
+   "percolationMargin": 0.5
+  },
+  {
+   "abbr": "PC",
+   "family": "aromatic",
+   "lser": [
+    -1.3,
+    0.4,
+    1.3,
+    1,
+    0.5,
+    0.8
+   ],
+   "percolationMargin": 0.6
+  },
+  {
+   "abbr": "PSF",
+   "family": "aromatic",
+   "lser": [
+    -1.5,
+    0.4,
+    1.7,
+    1.6,
+    0.2,
+    0.75
+   ],
+   "percolationMargin": 0.55
+  },
+  {
+   "abbr": "PSMA",
+   "family": "aromatic",
+   "lser": [
+    -1.4,
+    0.3,
+    1.8,
+    1.4,
+    0.3,
+    0.75
+   ],
+   "percolationMargin": 0.6
+  },
+  {
+   "abbr": "PECH",
+   "family": "dipolar",
+   "lser": [
+    -0.75,
+    0.1,
+    1.63,
+    1.45,
+    0.71,
+    0.83
+   ],
+   "percolationMargin": 0.4
+  },
+  {
+   "abbr": "OV-202",
+   "family": "dipolar",
+   "lser": [
+    -0.39,
+    -0.48,
+    1.3,
+    0.44,
+    0.71,
+    0.81
+   ],
+   "percolationMargin": 0.55
+  },
+  {
+   "abbr": "PMMA",
+   "family": "dipolar",
+   "lser": [
+    -1.2,
+    0,
+    1.4,
+    1.2,
+    0.1,
+    0.75
+   ],
+   "percolationMargin": 0.5
+  },
+  {
+   "abbr": "PVAc",
+   "family": "dipolar",
+   "lser": [
+    -1,
+    0,
+    1.6,
+    1.8,
+    0,
+    0.8
+   ],
+   "percolationMargin": 0.45
+  },
+  {
+   "abbr": "PVC-VA",
+   "family": "dipolar",
+   "lser": [
+    -1.1,
+    0.1,
+    1.3,
+    1,
+    0.3,
+    0.85
+   ],
+   "percolationMargin": 0.6
+  },
+  {
+   "abbr": "PVDF",
+   "family": "dipolar",
+   "lser": [
+    -1.3,
+    -0.3,
+    1.4,
+    1.5,
+    0.2,
+    0.65
+   ],
+   "percolationMargin": 0.7
+  },
+  {
+   "abbr": "EC",
+   "family": "dipolar",
+   "lser": [
+    -0.95,
+    0.1,
+    1.2,
+    1.9,
+    0.6,
+    0.85
+   ],
+   "percolationMargin": 0.55
+  },
+  {
+   "abbr": "CA",
+   "family": "dipolar",
+   "lser": [
+    -1.3,
+    0.1,
+    1.7,
+    2.1,
+    0.5,
+    0.7
+   ],
+   "percolationMargin": 0.5
+  },
+  {
+   "abbr": "PCL",
+   "family": "basic",
+   "lser": [
+    -0.85,
+    0.1,
+    1.3,
+    1.6,
+    0.1,
+    0.85
+   ],
+   "percolationMargin": 0.45
+  },
+  {
+   "abbr": "PEO",
+   "family": "basic",
+   "lser": [
+    -0.9,
+    0.2,
+    1.6,
+    2.6,
+    0.3,
+    0.75
+   ],
+   "percolationMargin": 0.4
+  },
+  {
+   "abbr": "PEG",
+   "family": "basic",
+   "lser": [
+    -0.6,
+    0.3,
+    1.5,
+    2.5,
+    0.2,
+    0.7
+   ],
+   "percolationMargin": 0.5
+  },
+  {
+   "abbr": "PVP",
+   "family": "basic",
+   "lser": [
+    -1.4,
+    0.3,
+    1.9,
+    3.5,
+    0,
+    0.7
+   ],
+   "percolationMargin": 0.45
+  },
+  {
+   "abbr": "PEI",
+   "family": "basic",
+   "lser": [
+    -1.58,
+    0.5,
+    1.45,
+    4.28,
+    0,
+    0.77
+   ],
+   "percolationMargin": 0.5
+  },
+  {
+   "abbr": "PEM",
+   "family": "basic",
+   "lser": [
+    -1.1,
+    -0.13,
+    2.1,
+    3,
+    0.5,
+    0.7
+   ],
+   "percolationMargin": 0.6
+  },
+  {
+   "abbr": "P4VP",
+   "family": "acidic",
+   "lser": [
+    -1.6,
+    0.4,
+    1.3,
+    2.2,
+    2.4,
+    0.75
+   ],
+   "percolationMargin": 0.5
+  },
+  {
+   "abbr": "PSAA",
+   "family": "acidic",
+   "lser": [
+    -1.2,
+    0.4,
+    1.1,
+    1.5,
+    1.5,
+    0.85
+   ],
+   "percolationMargin": 0.55
+  },
+  {
+   "abbr": "FPOL",
+   "family": "acidic",
+   "lser": [
+    -1.35,
+    -0.67,
+    1.48,
+    1.47,
+    3.9,
+    0.82
+   ],
+   "percolationMargin": 0.45
+  },
+  {
+   "abbr": "SXFA",
+   "family": "acidic",
+   "lser": [
+    -0.85,
+    -0.42,
+    0.6,
+    0.71,
+    3.6,
+    0.8
+   ],
+   "percolationMargin": 0.5
+  },
+  {
+   "abbr": "PMVE-MA",
+   "family": "acidic",
+   "lser": [
+    -1.4,
+    0.2,
+    1.4,
+    1.8,
+    2.8,
+    0.7
+   ],
+   "percolationMargin": 0.6
+  },
+  {
+   "abbr": "PVA",
+   "family": "hydrophilic",
+   "lser": [
+    -1.8,
+    0.3,
+    1.5,
+    3,
+    2,
+    0.55
+   ],
+   "percolationMargin": 0.5
+  },
+  {
+   "abbr": "PAA",
+   "family": "hydrophilic",
+   "lser": [
+    -1.7,
+    0.2,
+    1.6,
+    2.4,
+    2.6,
+    0.6
+   ],
+   "percolationMargin": 0.55
+  }
+ ],
+ "sources": [
+  {
+   "id": "coffee",
+   "material": "porcelain",
+   "headspace": {
+    "furfurylthiol": 0.003,
+    "pyrazine": 0.05,
+    "diacetyl": 0.3,
+    "acetaldehyde": 2,
+    "methylbutanal": 0.6,
+    "acetic_acid": 0.6,
+    "furfural": 0.4
+   },
+   "waterPpm": 25000
+  },
+  {
+   "id": "red_wine",
+   "material": "glass",
+   "headspace": {
+    "ethanol": 3000,
+    "ethyl_acetate": 15,
+    "acetic_acid": 3,
+    "isoamyl_acetate": 1,
+    "acetaldehyde": 2
+   },
+   "waterPpm": 1500
+  },
+  {
+   "id": "orange",
+   "material": "food-other",
+   "headspace": {
+    "limonene": 40,
+    "linalool": 0.4,
+    "nonanal": 0.06,
+    "ethyl_butyrate": 0.05,
+    "acetaldehyde": 0.5
+   },
+   "waterPpm": 3000
+  },
+  {
+   "id": "banana",
+   "material": "food-other",
+   "headspace": {
+    "isoamyl_acetate": 8,
+    "ethyl_acetate": 1.5,
+    "hexanal": 0.2,
+    "ethyl_butyrate": 0.1,
+    "acetaldehyde": 0.3
+   },
+   "waterPpm": 2000
+  },
+  {
+   "id": "bread",
+   "material": "produce-bread",
+   "headspace": {
+    "ethanol": 30,
+    "acetylpyrroline": 0.0006,
+    "methylbutanal": 0.3,
+    "furfural": 0.2,
+    "hexanal": 0.1,
+    "diacetyl": 0.05
+   },
+   "waterPpm": 4000
+  },
+  {
+   "id": "cheese",
+   "material": "food-other",
+   "headspace": {
+    "butyric_acid": 0.4,
+    "acetic_acid": 0.5,
+    "diacetyl": 0.3,
+    "methanethiol": 0.01,
+    "ethyl_butyrate": 0.1
+   },
+   "waterPpm": 1000
+  },
+  {
+   "id": "fish",
+   "material": "food-other",
+   "headspace": {
+    "trimethylamine": 2,
+    "dimethyl_sulfide": 0.2,
+    "ammonia": 1,
+    "hexanal": 0.05
+   },
+   "waterPpm": 2500
+  },
+  {
+   "id": "popcorn",
+   "material": "food-other",
+   "headspace": {
+    "diacetyl": 0.6,
+    "acetylpyrroline": 0.001,
+    "pyrazine": 0.02,
+    "hexanal": 0.05
+   },
+   "waterPpm": 1500
+  },
+  {
+   "id": "mint_tea",
+   "material": "porcelain",
+   "headspace": {
+    "menthol": 0.6,
+    "limonene": 0.2
+   },
+   "waterPpm": 22000
+  },
+  {
+   "id": "garbage",
+   "material": "thermoplastic",
+   "headspace": {
+    "trimethylamine": 0.3,
+    "dimethyl_sulfide": 0.5,
+    "butyric_acid": 0.2,
+    "acetic_acid": 1,
+    "hydrogen_sulfide": 0.2,
+    "methanethiol": 0.05,
+    "ethanol": 5
+   },
+   "waterPpm": 3000
+  },
+  {
+   "id": "pine_wood",
+   "material": "timber",
+   "headspace": {
+    "alpha_pinene": 3,
+    "limonene": 0.5,
+    "hexanal": 0.5,
+    "acetic_acid": 0.8,
+    "furfural": 0.05
+   },
+   "waterPpm": 0
+  },
+  {
+   "id": "old_books",
+   "material": "paper",
+   "headspace": {
+    "furfural": 0.06,
+    "benzaldehyde": 0.03,
+    "vanillin": 0.002,
+    "hexanal": 0.05,
+    "acetic_acid": 0.2,
+    "ethylhexanol": 0.02
+   },
+   "waterPpm": 0
+  },
+  {
+   "id": "cardboard",
+   "material": "cardboard",
+   "headspace": {
+    "furfural": 0.2,
+    "hexanal": 0.3,
+    "acetic_acid": 0.5,
+    "alpha_pinene": 0.15
+   },
+   "waterPpm": 0
+  },
+  {
+   "id": "leather",
+   "material": "leather",
+   "headspace": {
+    "hexanal": 0.3,
+    "nonanal": 0.15,
+    "ethylhexanol": 0.3,
+    "benzothiazole": 0.05,
+    "acetic_acid": 0.3
+   },
+   "waterPpm": 0
+  },
+  {
+   "id": "plastic",
+   "material": "thermoplastic",
+   "headspace": {
+    "styrene": 1,
+    "ethylbenzene": 0.2,
+    "ethylhexanol": 0.1,
+    "toluene": 0.1
+   },
+   "waterPpm": 0
+  },
+  {
+   "id": "rubber_mat",
+   "material": "rubber",
+   "headspace": {
+    "benzothiazole": 0.4,
+    "toluene": 0.3,
+    "ethylhexanol": 0.1,
+    "isoprene": 0.1
+   },
+   "waterPpm": 0
+  },
+  {
+   "id": "polyester",
+   "material": "fabric",
+   "headspace": {
+    "ethylhexanol": 0.1,
+    "nonanal": 0.08,
+    "decane": 0.15
+   },
+   "waterPpm": 0
+  },
+  {
+   "id": "brass",
+   "material": "brass",
+   "headspace": {
+    "octenone": 0.0002,
+    "hexanal": 0.005
+   },
+   "waterPpm": 0
+  },
+  {
+   "id": "steel",
+   "material": "steel",
+   "headspace": {
+    "octenone": 0.00002
+   },
+   "waterPpm": 0
+  },
+  {
+   "id": "glass_vase",
+   "material": "glass",
+   "headspace": {},
+   "waterPpm": 0
+  },
+  {
+   "id": "candle",
+   "material": "wax",
+   "headspace": {
+    "vanillin": 0.03,
+    "decane": 0.5,
+    "benzaldehyde": 0.02
+   },
+   "waterPpm": 2000
+  },
+  {
+   "id": "brick",
+   "material": "brick",
+   "headspace": {
+    "geosmin": 0.00001
+   },
+   "waterPpm": 2500
+  },
+  {
+   "id": "roses",
+   "material": "flower",
+   "headspace": {
+    "phenylethanol": 0.3,
+    "linalool": 0.2,
+    "benzyl_acetate": 0.1,
+    "hexenol": 0.05
+   },
+   "waterPpm": 3000
+  },
+  {
+   "id": "houseplant",
+   "material": "foliage",
+   "headspace": {
+    "hexenol": 0.05,
+    "hexenal": 0.03,
+    "alpha_pinene": 0.02,
+    "linalool": 0.005,
+    "isoprene": 0.05
+   },
+   "waterPpm": 6000
+  },
+  {
+   "id": "grass",
+   "material": "grass",
+   "headspace": {
+    "hexenol": 0.3,
+    "hexenal": 0.15,
+    "acetaldehyde": 0.1
+   },
+   "waterPpm": 8000
+  },
+  {
+   "id": "moss",
+   "material": "moss",
+   "headspace": {
+    "geosmin": 0.0001,
+    "octenol": 0.003
+   },
+   "waterPpm": 5000
+  },
+  {
+   "id": "nail_polish_remover",
+   "material": "thermoplastic",
+   "headspace": {
+    "acetone": 15000,
+    "ethyl_acetate": 800
+   },
+   "waterPpm": 0
+  },
+  {
+   "id": "hand_sanitizer",
+   "material": "thermoplastic",
+   "headspace": {
+    "ethanol": 8000,
+    "isopropanol": 500,
+    "limonene": 1
+   },
+   "waterPpm": 0
+  },
+  {
+   "id": "window_cleaner",
+   "material": "thermoplastic",
+   "headspace": {
+    "ammonia": 300,
+    "isopropanol": 600
+   },
+   "waterPpm": 2000
+  },
+  {
+   "id": "pine_cleaner",
+   "material": "thermoplastic",
+   "headspace": {
+    "alpha_pinene": 20,
+    "limonene": 12,
+    "ethanol": 50
+   },
+   "waterPpm": 6000
+  },
+  {
+   "id": "paint",
+   "material": "steel",
+   "headspace": {
+    "toluene": 300,
+    "ethylbenzene": 60,
+    "decane": 100,
+    "hexane": 50
+   },
+   "waterPpm": 0
+  },
+  {
+   "id": "perfume",
+   "material": "glass",
+   "headspace": {
+    "ethanol": 300,
+    "linalool": 3,
+    "limonene": 4,
+    "phenylethanol": 0.6,
+    "benzyl_acetate": 0.5,
+    "vanillin": 0.01
+   },
+   "waterPpm": 0
+  },
+  {
+   "id": "humidifier",
+   "material": "thermoplastic",
+   "headspace": {},
+   "waterPpm": 60000
+  },
+  {
+   "id": "human",
+   "material": "skin",
+   "headspace": {
+    "isoprene": 0.08,
+    "acetone": 0.4,
+    "butyric_acid": 0.003,
+    "acetic_acid": 0.03,
+    "ammonia": 0.05,
+    "nonanal": 0.002
+   },
+   "waterPpm": 0
+  }
+ ]
+}

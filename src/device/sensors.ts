@@ -7,17 +7,21 @@
 //    concentration (mol/m^3) and V_j the liquid molar volume.
 // 3. Percolation: swelling dilutes the carbon black. With volume fraction v = v0 / (1 + phi) and
 //    percolation threshold vc, resistance follows R ~ (v - vc)^(-t), t ~ 2 in 3D.
-// 4. Kinetics: phi relaxes toward equilibrium with a polymer-specific time constant.
-// 5. Readout: baseline drift (random walk), white noise, small substrate temperature coefficient.
+// 4. Kinetics: phi relaxes toward equilibrium with a channel-specific time constant.
+// 5. Readout: gas temperature coefficient, baseline drift (random walk), white noise, optional
+//    external offsets; non-sensing channels produce a two-level readout with shared spikes.
+//
+// Channel parameters come from a SensorProfile (see profiles.ts).
 
-import { AIR_MOLAR_DENSITY, COMPOUNDS, molarVolume } from '../chem/compounds';
-import { POLYMERS } from '../chem/polymers';
+import { AIR_MOLAR_DENSITY, COMPOUNDS, WATER_INDEX, molarVolume } from '../chem/compounds';
+import { getProfile, type SensorProfile } from './profiles';
 
 const PERCOLATION_THRESHOLD = 0.16;
 const PERCOLATION_EXPONENT = 2.0;
 const GAS_CONSTANT = 8.314;
+const REFERENCE_GAS_TEMP_C = 25;
 // LSERs overpredict water uptake in these composites (water clusters rather than swelling the
-// carbon-black network uniformly). This damping is a tuning choice, not a fitted constant.
+// carbon-black network uniformly). Used only for channels without a measured water partition.
 const WATER_LOG_K_CORRECTION = -0.7;
 
 function mulberry32(seed: number): () => number {
@@ -31,8 +35,13 @@ function mulberry32(seed: number): () => number {
   };
 }
 
+function lnShift(enthalpy: number, tempC: number): number {
+  return (-enthalpy / GAS_CONSTANT) * (1 / (273.15 + tempC) - 1 / 298.15);
+}
+
 export class SensorArray {
-  readonly count = POLYMERS.length;
+  readonly profile: SensorProfile;
+  readonly count: number;
   private readonly nCompounds = COMPOUNDS.length;
   private readonly logK298: Float64Array;
   private readonly enthalpy: Float64Array; // J/mol (negative = exothermic)
@@ -45,13 +54,15 @@ export class SensorArray {
   readonly baseResistance: Float64Array;
   private readonly v0: Float64Array;
   private readonly random: () => number;
+  readonly active: boolean[];
   substrateTempC = 30;
-  noiseLevel = 1e-5;
-  driftLevel = 3e-6;
+  private episodeRows = 0;
+  private episodeMagnitude = 0;
 
-  constructor(seed = 7) {
+  constructor(profile: SensorProfile = getProfile(), seed = 7) {
+    this.profile = profile;
     this.random = mulberry32(seed);
-    const n = this.count;
+    const n = (this.count = profile.channels.length);
     const m = this.nCompounds;
     this.logK298 = new Float64Array(n * m);
     this.enthalpy = new Float64Array(m);
@@ -63,32 +74,35 @@ export class SensorArray {
     this.driftRate = new Float64Array(n);
     this.baseResistance = new Float64Array(n);
     this.v0 = new Float64Array(n);
+    this.active = profile.channels.map((channel) => channel.kind === 'active');
     COMPOUNDS.forEach((compound, j) => {
       this.molarVolumes[j] = molarVolume(compound);
       this.enthalpy[j] = compound.id === 'water' ? -44e3 : -(20e3 + 8e3 * compound.L);
     });
-    POLYMERS.forEach((polymer, i) => {
-      const [c, e, s, a, b, l] = polymer.lser;
+    const variation = profile.unitVariation;
+    profile.channels.forEach((channel, i) => {
+      const [c, e, s, a, b, l] = channel.lser;
       COMPOUNDS.forEach((compound, j) => {
-        const correction = compound.id === 'water' ? WATER_LOG_K_CORRECTION : 0;
-        this.logK298[i * m + j] = c + e * compound.E + s * compound.S + a * compound.A + b * compound.B + l * compound.L + correction;
+        let logK = c + e * compound.E + s * compound.S + a * compound.A + b * compound.B + l * compound.L;
+        if (j === WATER_INDEX) {
+          // measured water partitions are defined at the 30 C substrate; store them at 298 K
+          logK = channel.waterLog10K !== null ? channel.waterLog10K - lnShift(this.enthalpy[j], 30) / Math.LN10 : logK + WATER_LOG_K_CORRECTION;
+        }
+        this.logK298[i * m + j] = channel.kind === 'active' ? logK : -30;
       });
-      // unit-to-unit manufacturing variation
-      this.baseResistance[i] = polymer.baseResistance * (0.9 + 0.2 * this.random());
-      this.v0[i] = PERCOLATION_THRESHOLD * (1 + polymer.percolationMargin * (0.9 + 0.2 * this.random()));
-      this.driftRate[i] = (this.random() - 0.5) * 2e-6;
+      this.baseResistance[i] = channel.baseResistance * (1 - variation + 2 * variation * this.random());
+      this.v0[i] = PERCOLATION_THRESHOLD * (1 + channel.percolationMargin * (1 - variation + 2 * variation * this.random()));
+      this.driftRate[i] = (this.random() - 0.5) * 2 * profile.driftRateScale;
     });
     this.setSubstrateTemperature(30);
   }
 
   setSubstrateTemperature(tempC: number): void {
     this.substrateTempC = tempC;
-    const inverseDelta = 1 / (273.15 + tempC) - 1 / 298.15;
     const m = this.nCompounds;
     for (let i = 0; i < this.count; i++) {
       for (let j = 0; j < m; j++) {
-        const lnShift = (-this.enthalpy[j] / GAS_CONSTANT) * inverseDelta;
-        this.partition[i * m + j] = Math.pow(10, this.logK298[i * m + j]) * Math.exp(lnShift);
+        this.partition[i * m + j] = Math.pow(10, this.logK298[i * m + j]) * Math.exp(lnShift(this.enthalpy[j], tempC));
       }
     }
   }
@@ -138,26 +152,61 @@ export class SensorArray {
   step(dt: number, ppm: ArrayLike<number>): void {
     if (dt <= 0) return;
     this.equilibrium(ppm);
+    const driftLevel = this.profile.driftLevel;
     for (let i = 0; i < this.count; i++) {
       const target = this.phiEq[i];
-      const tau = POLYMERS[i].tau * (target < this.phi[i] ? 1.6 : 1);
+      const tau = this.profile.channels[i].tau * (target < this.phi[i] ? 1.6 : 1);
       this.phi[i] += (target - this.phi[i]) * (1 - Math.exp(-dt / tau));
-      this.drift[i] += this.driftRate[i] * dt + this.driftLevel * Math.sqrt(dt) * this.gaussian();
+      this.drift[i] += this.driftRate[i] * dt + driftLevel * Math.sqrt(dt) * this.gaussian();
     }
   }
 
-  private gaussian(): number {
+  gaussian(): number {
     const u1 = Math.max(1e-12, this.random());
     const u2 = this.random();
     return Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
   }
 
-  /** Current resistances (ohms) including drift and readout noise. */
-  read(out: Float64Array = new Float64Array(this.count)): Float64Array {
+  uniform(): number {
+    return this.random();
+  }
+
+  /**
+   * Current readings including temperature coefficient, drift, noise and optional
+   * per-channel multiplicative offsets (e.g. inlet-path effects).
+   */
+  read(out: Float64Array = new Float64Array(this.count), gasTempC = REFERENCE_GAS_TEMP_C, offsets: ArrayLike<number> | null = null): Float64Array {
     const thermal = 1 + 0.002 * (this.substrateTempC - 30);
+    const channels = this.profile.channels;
+    const dead = this.profile.dead;
+    // shared glitch episodes on the non-sensing channels
+    if (dead) {
+      if (this.episodeRows > 0) {
+        this.episodeRows--;
+      } else if (this.random() < dead.episodeStartProbability) {
+        const sigma = Math.log(Math.max(1.01, dead.episodeP90 / dead.episodeMedian)) / 1.2816;
+        const sign = this.random() < dead.episodeNegativeFraction ? -1 : 1;
+        this.episodeMagnitude = sign * Math.min(0.9, dead.episodeMedian * Math.exp(sigma * this.gaussian()));
+        this.episodeRows = Math.max(1, Math.round(-Math.log(Math.max(1e-9, this.random())) * dead.episodeMeanRows));
+      }
+      if (this.episodeRows === 0) this.episodeMagnitude = 0;
+    }
+    let deadIndex = 0;
     for (let i = 0; i < this.count; i++) {
-      const noise = 1 + this.noiseLevel * this.gaussian();
-      out[i] = this.baseResistance[i] * thermal * this.percolation(i, this.phi[i]) * (1 + this.drift[i]) * noise;
+      if (!this.active[i]) {
+        if (dead) {
+          const k = deadIndex++;
+          const state = this.random() < dead.lowFraction[k] ? dead.lowRelative[k] : dead.highRelative[k];
+          out[i] = this.baseResistance[i] * (1 + state + dead.jitter[k] * this.gaussian()) * (1 + this.episodeMagnitude * (0.9 + 0.2 * this.random()));
+        } else {
+          out[i] = this.baseResistance[i];
+        }
+        continue;
+      }
+      const temperature = 1 + channels[i].tempCoefficient * (gasTempC - REFERENCE_GAS_TEMP_C);
+      const offset = offsets ? 1 + offsets[i] : 1;
+      const noise = 1 + channels[i].noise * this.gaussian();
+      out[i] = this.baseResistance[i] * thermal * temperature * this.percolation(i, this.phi[i]) * (1 + this.drift[i]) * offset * noise;
     }
     return out;
   }

@@ -4,9 +4,10 @@ import { COMPOUNDS } from '../chem/compounds';
 import { intensityLabel } from '../chem/perception';
 import { pca } from '../device/analysis';
 import { METHODS, type Measurement } from '../device/cyranose';
+import { DEFAULT_PROFILE, PROFILES, type ProfileId } from '../device/profiles';
 import type { App } from '../app';
 import type { Layout } from '../types';
-import { drawHeatmap, drawScatter, drawSmellprint, drawTraces, PHASE_COLORS } from './charts';
+import { drawHeatmap, drawScatter, drawSmellprint, drawTraces, PHASE_COLORS, type ChannelLabel } from './charts';
 
 function element<K extends keyof HTMLElementTagNameMap>(tag: K, className = '', html = ''): HTMLElementTagNameMap[K] {
   const node = document.createElement(tag);
@@ -59,6 +60,7 @@ export class DevicePanel {
   private human: HTMLElement;
   private pip: HTMLCanvasElement;
   private probeSelect!: HTMLSelectElement;
+  private profileNote!: HTMLElement;
   heatmapMode: 'relative' | 'raw' = 'relative';
   selectedMeasurement: number | null = null;
   private lastCaptureCount = -1;
@@ -92,6 +94,19 @@ export class DevicePanel {
       for (const method of METHODS) method.intakeFilter = filterInput.checked;
     };
     methodRow.append(methodSelect, filterToggle);
+    const profileRow = element('div', 'row');
+    const profileSelect = element('select');
+    profileSelect.style.flex = '1';
+    profileSelect.title = 'Which channel physics the simulated e-nose uses';
+    for (const id of Object.keys(PROFILES) as ProfileId[]) profileSelect.append(new Option(`Sensors: ${PROFILES[id]().name}`, id));
+    profileSelect.value = DEFAULT_PROFILE;
+    profileSelect.onchange = () => {
+      app.device.setProfile(profileSelect.value as ProfileId);
+      this.selectedMeasurement = null;
+      this.profileNote.textContent = app.device.sensors.profile.description;
+    };
+    profileRow.append(profileSelect);
+    this.profileNote = element('div', 'description', app.device.sensors.profile.description);
     const probeRow = element('div', 'row');
     const probeSelect = element('select');
     probeSelect.id = 'probe-select';
@@ -106,7 +121,7 @@ export class DevicePanel {
     ambient.title = 'Move the device to the middle of the room, away from sources';
     ambient.onclick = () => app.moveDeviceToRoomCenter();
     probeRow.append(probeSelect, ambient);
-    control.append(status, this.progress, buttons, methodRow, probeRow);
+    control.append(status, this.progress, buttons, methodRow, profileRow, this.profileNote, probeRow);
     root.append(control);
 
     root.append(element('h2', '', 'At the snout tip <span class="muted">ground truth</span>'));
@@ -233,37 +248,41 @@ export class DevicePanel {
           : '<div class="description">Nothing above human odor thresholds here.</div>';
     }
 
-    drawTraces(this.traces, device.historyTimes, device.historyValues, device.historyPhases);
+    const channels: ChannelLabel[] = device.sensors.profile.channels.map((channel) => ({ label: channel.label, color: channel.color, active: channel.kind === 'active' }));
+    drawTraces(this.traces, device.historyTimes, device.historyValues, device.historyPhases, channels);
 
     const measurement = this.measurementToShow();
     const running = device.mode === 'cycle';
     if (running) {
       const rows = device.currentRows();
-      drawHeatmap(this.heatmap, { rows: rows.rows, phases: rows.phases, baselineMean: rows.baselineMean }, this.heatmapMode);
+      drawHeatmap(this.heatmap, { rows: rows.rows, phases: rows.phases, baselineMean: rows.baselineMean }, this.heatmapMode, channels);
       this.heatmapCaption.textContent = `Recording: ${rows.rows.length} timesteps at ${device.method.sampleRateHz} Hz (yellow = baseline via side inlet, cyan = sample via snout).`;
     } else if (measurement) {
       const rows = [...measurement.baseline, ...measurement.sample];
-      const baselineMean = new Float64Array(32);
-      for (const row of measurement.baseline) for (let i = 0; i < 32; i++) baselineMean[i] += row[i] / measurement.baseline.length;
-      drawHeatmap(this.heatmap, { rows, phases: measurement.phases, baselineMean }, this.heatmapMode);
+      const width = measurement.baseline[0]?.length ?? channels.length;
+      const baselineMean = new Float64Array(width);
+      for (const row of measurement.baseline) for (let i = 0; i < width; i++) baselineMean[i] += row[i] / measurement.baseline.length;
+      drawHeatmap(this.heatmap, { rows, phases: measurement.phases, baselineMean }, this.heatmapMode, channels);
       this.heatmapCaption.textContent = `#${measurement.id} ${measurement.label}: ${measurement.baseline.length} baseline + ${measurement.sample.length} sample timesteps (${measurement.method}).`;
     } else {
-      drawHeatmap(this.heatmap, { rows: [], phases: [], baselineMean: null }, this.heatmapMode);
+      drawHeatmap(this.heatmap, { rows: [], phases: [], baselineMean: null }, this.heatmapMode, channels);
       this.heatmapCaption.textContent = 'Move the snout next to an object and press Run measurement.';
     }
 
     if (measurement) {
-      drawSmellprint(this.smellprint, measurement.smellprint);
+      drawSmellprint(this.smellprint, measurement.smellprint, channels);
       const match = measurement.match ? ` Most similar earlier capture: ${measurement.match.label} (cosine ${measurement.match.similarity.toFixed(2)}).` : '';
       const truth = measurement.truth;
       this.smellprintCaption.innerHTML = `<b style="color:${measurement.color}">${measurement.label}</b>, snout ${truth.distance < 5 ? (truth.distance * 100).toFixed(1) + ' cm' : 'far'} from surface, RH ${truth.rh.toFixed(0)}%.${match}`;
     } else {
-      drawSmellprint(this.smellprint, null);
+      drawSmellprint(this.smellprint, null, channels);
       this.smellprintCaption.textContent = '';
     }
 
     const measurements = device.measurements;
-    const result = pca(measurements.map((m) => m.smellprint));
+    // PCA on active channels only: non-sensing positions carry readout noise and spikes
+    const activeIndex = channels.flatMap((channel, i) => (channel.active ? [i] : []));
+    const result = pca(measurements.map((m) => activeIndex.map((i) => m.smellprint[i])));
     if (result) {
       drawScatter(
         this.scatter,

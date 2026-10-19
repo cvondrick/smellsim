@@ -5,7 +5,6 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { PointerLockControls } from 'three/examples/jsm/controls/PointerLockControls.js';
 import { COMPOUNDS, WATER_INDEX, relativeHumidity } from './chem/compounds';
 import { Adaptation, intensityFromOav } from './chem/perception';
-import { POLYMERS } from './chem/polymers';
 import { getSourceType, SOURCE_TYPE_MAP } from './chem/sourceTypes';
 import { Cyranose, pidReading, type GroundTruth } from './device/cyranose';
 import { DeviceView, SNOUT_TIP_LOCAL } from './render/deviceView';
@@ -484,7 +483,7 @@ export class App {
   }
 
   sensorNames(): string[] {
-    return POLYMERS.map((polymer) => polymer.abbr);
+    return this.device.sensors.profile.channels.map((channel) => channel.label);
   }
 
   // ------------------------------------------------------------------ worker messages
